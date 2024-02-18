@@ -2,23 +2,27 @@ package com.feb.jdbc.service;
 
 import java.util.HashMap;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 import com.feb.jdbc.dao.LoginDao;
 import com.feb.jdbc.entity.Member;
 import com.feb.jdbc.util.Sha512Encoder;
 
+@Service
 public class LoginService {//xml에 있는 bean 열어서 beans 추가하기
-	private LoginDao loginDao; //객체 선언
 	
-	public LoginService() {}
-	public LoginService(LoginDao loginDao) {
-		this.loginDao = loginDao;
-	}
+	@Autowired
+	private LoginDao loginDao; //객체 선언
 	
 	public boolean login(HashMap<String, String> params) {//dao에 있는 메서드명이랑 메서드명 통일시켜야한다.//
 		String memberId = params.get("memberId");
 		Member member = loginDao.login(memberId);
+		if (ObjectUtils.isEmpty(member)) {
+			return false;
+		}
 		
 		String memberPw = member.getPasswd(); // DB에 있는 값
 		

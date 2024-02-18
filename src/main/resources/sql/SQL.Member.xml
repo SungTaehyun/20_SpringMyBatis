@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+"http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+
+<mapper namespace="com.feb.jdbc.dao.MemberDao"> <!-- namespace는 패키지명과 인터페이스명 MemberDao는 일치해야하고 파일연결하는 기능이다. -->
+
+	<!-- public int join(HashMap<String, String> params); -->
+	<!-- insert delete update에서 resulttype의 int형은 마이바티스엣j는 생략한다. 이유는? 무조건 int형이기 때문에 -->
+	<insert id="join" parameterType="java.util.HashMap">
+	INSERT INTO lecture.member (member_id, passwd, email, join_dtm)
+	VALUES(
+	#{memberId},
+	 #{passwd},
+	  #{email}, 
+	 to_char(now(), 'YYYYMMDDHH24MISS')
+	)
+	</insert>
+	<delete id= "deleteMember" parameterType="String">
+		DELETE FROM lecture."member"
+WHERE member_Id=#{memberId}
+	</delete>
+</mapper>
+<!-- 작업순서 :  -->
+<!--http://localhost:8080/20-mybatis/deleteMember.do?memberId=tjdxogus12345 입력하면 memberId가 삭제된다-->
+<!-- console창에 삭제되면 Updates: 1이 뜨고 삭제가 안됐으면 Updates: 0 이 뜬다. -->

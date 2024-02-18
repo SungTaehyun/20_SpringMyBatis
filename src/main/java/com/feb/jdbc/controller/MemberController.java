@@ -22,8 +22,20 @@ public class MemberController {
 	@Autowired
 	private MemberService memberService;
 
+	@GetMapping("/deleteMember.do") //http://localhost:8080/20-mybatis/deleteMember.do?memberId=tjdxogus12345
+	public ModelAndView deleteMember(@RequestParam HashMap<String, String> params) {
+		String memberId = params.get("memberId");
+		ModelAndView mv = new ModelAndView();
+		int result = memberService.join(params);
+		mv.setViewName("login");
+		mv.addObject("resultCode", result);
+		
+		return mv;
+	}
+	
+	
 	@ResponseBody
-	@RequestMapping("/findMember.do")
+	@RequestMapping("/findMember.do")//http://localhost:8080/20-mybatis/findMember.do?memberId=tjdxogus12345
 	public String findMember(@RequestParam HashMap<String, String> params) {
 		String memberId = params.get("memberId");
 		Member member = memberService.findMember2(memberId);

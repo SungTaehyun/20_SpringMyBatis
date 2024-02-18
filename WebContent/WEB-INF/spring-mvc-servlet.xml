@@ -15,6 +15,7 @@
 	<context:component-scan base-package="com.feb.jdbc" use-default-filters="false" >
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
 	</context:component-scan>
+	
 <!-- view 안에 jsp가 있는 이유 (경로설정) -->
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/views/"/>

@@ -5,6 +5,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import com.feb.jdbc.dao.MemberDao;
 import com.feb.jdbc.dto.EmailDto;
 import com.feb.jdbc.entity.Member;
@@ -13,16 +17,11 @@ import com.feb.jdbc.util.Sha512Encoder;
 
 import ch.qos.logback.core.recovery.ResilientSyslogOutputStream;
 
+@Service
 public class MemberService { //MemberService는 어디서 빈을 만들어서 쓰는가? applicationContent-bean에서)
 		
-		public MemberService() {}
-		
+		@Autowired
 		private MemberDao memberDao;
-		
-		public MemberService(MemberDao memberDao) {
-			System.out.println(memberDao);
-			this.memberDao = memberDao;
-		}
 
 		private EmailUtil emailUtil;
 		public void setEmailUtil(EmailUtil emailUtil) {
@@ -38,11 +37,20 @@ public class MemberService { //MemberService는 어디서 빈을 만들어서 �
 		}
 		
 		public int join(HashMap<String, String> params) {
+			Sha512Encoder encoder = Sha512Encoder.getInstance();
+			String passwd = params.get("passwd");
+			String encodeTxt = encoder.getSecurePassword(passwd);
+			params.put("passwd", encodeTxt);
+			
 			return memberDao.join(params);
 		}
 		
 		public ArrayList<Member> memberList(HashMap<String, Object> params) {
 			return memberDao.memberList(params);
+		}
+		
+		public int deleteMember(HashMap<String, String> params) {
+			return memberDao.deleteMember(params.get("memberId"));
 		}
 
 	
