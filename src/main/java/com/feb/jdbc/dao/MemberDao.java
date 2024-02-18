@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 import com.feb.jdbc.entity.Member;
 
-public interface MemberDao {
+public interface MemberDao {// 단축키는 interface이름에 대고 컨트롤 + t
 	
 	public HashMap<String, Object> findMember(String memberId);
 	public Member findMember2(String memberId);
@@ -17,4 +17,10 @@ public interface MemberDao {
 	public int checkId(HashMap<String, String> params);
 	
 	public HashMap<String, Object> getMemberById(HashMap<String, String> params);
+	
+	// 사용자ID와 이메일로 사용자 찾기(파라미터 값 2개 지정)
+	public int findMember(String memberId, String email);
+
+	public int updatePasswd(String passwd, String email,   String memberId);
+	
 }

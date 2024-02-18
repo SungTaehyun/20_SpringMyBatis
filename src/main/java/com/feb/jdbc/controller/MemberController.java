@@ -1,6 +1,5 @@
 package com.feb.jdbc.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletResponse;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.feb.jdbc.entity.Member;
@@ -37,13 +35,13 @@ public class MemberController {
 	public ModelAndView join(@RequestParam HashMap<String, String> params,
 			HttpServletResponse response) {
 		ModelAndView mv = new ModelAndView();
-		int result = memberService.join(params);
+		int result = memberService.join(params);//성공 실패여부 따지는 콬드
 		mv.setViewName("login");
 		mv.addObject("resultCode", result);
 		if (result == 1) {
-			mv.addObject("resultMsg", "회원가입 성공");
+			mv.addObject("resultMsg", "회원가입 성공");//성공이구나
 		} else {
-			mv.addObject("resultMsg", "회원가입 실패");
+			mv.addObject("resultMsg", "회원가입 실패");//실패구나
 		}
 		return mv;
 	}
@@ -55,8 +53,31 @@ public class MemberController {
 		mv.setViewName("list");
 		return mv;		
 	}
-}
+	
+	@GetMapping("/findPw.do")
+	public ModelAndView findPw(@RequestParam HashMap<String,String> params) {
+		
+		ModelAndView mv = new ModelAndView();
+		boolean result = memberService.findPasswd(params);
+	
+		mv.setViewName("common/broker");
+		mv.addObject("resultCode", result );
+		mv.addObject("nextUri", "/loginPage.do");
 
+		if (result) {
+			mv.addObject("resultMsg", "이메일로 임시 비밀번호 발송함.");
+		} else {
+			mv.addObject("resultMsg", "사용자가 없습니다.");
+		}
+		return mv;
+	}
+}
+//http://localhost:8080/spring-jdbc/findPw.do?memberId=jbw02003&email=jbw02003@naver.com
+//위의 주소를 제대로 입력하면
+
+//똑바로 된거 넣으면 "임시 비밀번호 발송함."
+
+//잘못된거 넣으면  "사용자가 없어요"
 
 
 

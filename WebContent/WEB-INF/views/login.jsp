@@ -18,12 +18,16 @@
 	href="${pageContext.request.contextPath}/resources/css/style.css">
 <script type="text/javascript">
 	//컨트롤러에서 보낸 메세지가 있을 경우
-	window.onload = function(e){ 
-		var resultMsg = '${resultMsg}';
+	window.onload = function(e) {
+		var resultMsg = '${resultMsg}';//'${resultMsg}' jstl식 표현법
 		var resultCode = '${resultCode}';
-		if(resultMsg.length > 0){
-			alert(resultMsg);
+		if (resultMsg.length > 0) { //한글자로도 있으면 출력해라
+			alert(resultMsg);//
 		}
+		if (resultCode == 'loginOk') {
+			window.location.href = '<c:url value="/list.do"/>?offset=1&limit=20';
+		}
+
 	}
 </script>
 
@@ -39,11 +43,11 @@
 				<form action="<c:url value='/login.do'/>" method="post"
 					onsubmit="return formCheck(this);">
 					<div class="input-field">
-						<input type="text" name="id" placeholder="Enter your email"
+						<input type="text" name="memberId" placeholder="Enter your email"
 							required> <i class="uil uil-envelope icon"></i>
 					</div>
 					<div class="input-field">
-						<input type="password" name="pwd" class="password"
+						<input type="password" name="passwd" class="password"
 							placeholder="Enter your password" required> <i
 							class="uil uil-lock icon"></i> <i
 							class="uil uil-eye-slash showHidePw"></i>
@@ -101,12 +105,12 @@
 
 				<form action="<c:url value='/join.do'/>" method="post">
 					<div class="input-field">
-						<input type="text" name="memberId"  placeholder="Enter your name" required>
-						<i class="uil uil-user"></i>
+						<input type="text" name="memberId" placeholder="Enter your name"
+							required> <i class="uil uil-user"></i>
 					</div>
 					<div class="input-field">
-						<input type="text" name="email" placeholder="Enter your email" required>
-						<i class="uil uil-envelope icon"></i>
+						<input type="text" name="email" placeholder="Enter your email"
+							required> <i class="uil uil-envelope icon"></i>
 					</div>
 					<div class="input-field">
 						<input type="password" name="passwd" class="password"
